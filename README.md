@@ -22,7 +22,7 @@ Este é um projeto de aplicativo para gerenciamento de restaurante, desenvolvido
 Antes de rodar o projeto, você precisa ter as seguintes ferramentas instaladas:
 
 - [Android Studio](https://developer.android.com/studio) - IDE recomendada para desenvolvimento Android.
-- [JDK](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html) - Java Development Kit.
+- [JDK](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html) - Java Development Kit 8.
 
 ### Passos para rodar:
 
