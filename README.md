@@ -1,6 +1,6 @@
 # iFood - App de Restaurante
 
-Este é um projeto de aplicativo para gerenciamento de restaurante, desenvolvido como parte de um curso de Android. O aplicativo possui funcionalidades para autenticação de usuário, visualização de cardápio, pedidos e configurações.
+Este é um projeto de aplicativo para gerenciamento de restaurante, desenvolvido como parte de um curso de Banco de Dados. O aplicativo possui funcionalidades para autenticação de usuário, visualização de cardápio, pedidos e configurações.
 
 ## Funcionalidades
 
