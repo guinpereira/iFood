@@ -1,3 +1,25 @@
 <resources>
-    <string name="app_name">Ifood</string>
+    <!-- Nome do aplicativo -->
+    <string name="app_name">Express Food</string>
+
+    <!-- Descrição de imagem -->
+    <string name="logo_descricao">Logo do Express Food</string>
+
+    <!-- Textos de autenticação -->
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Senha</string>
+    <string name="button_access">Acessar</string>
+    <string name="switch_login">Logar</string>
+    <string name="switch_register">Cadastre-se</string>
+
+    <!-- Textos de tipo de usuário -->
+    <string name="label_user">Usuário</string>
+    <string name="label_company">Empresa</string>
+
+    <!-- Mensagens e erros -->
+    <string name="error_empty_email">Por favor, insira um email válido.</string>
+    <string name="error_empty_password">Por favor, insira uma senha.</string>
+
+    <!-- Outros -->
+    <string name="loading">Carregando...</string>
 </resources>

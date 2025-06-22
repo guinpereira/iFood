@@ -1,7 +1,26 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ffffff</color>
-    <color name="colorPrimaryDark">#a50a15</color>
-    <color name="colorAccent">#870912</color>
-    <color name="vermelhoEscuro">#a50a15</color>
+    <!-- Paleta laranja viva para Express Food -->
+    <color name="colorPrimary">#ff6e00</color>           <!-- Laranja principal -->
+    <color name="colorPrimaryDark">#CC7000</color>       <!-- Laranja escuro (para status bar ou variantes) -->
+    <color name="colorAccent">#FFB347</color>            <!-- Acento suave e destaque -->
+    <color name="colorButtonBackground">#D84315</color>  <!-- Laranja suave e estiloso para o botão -->
+    <color name="colorControlHighlight">#FFE0C0</color>  <!-- Feedback visual ao toque -->
+    <color name="colorButtonText">#FFFFFF</color>        <!-- Texto claro sobre laranja -->
+
+    <!-- Cores auxiliares -->
+    <color name="backgroundLight">#FFF8F0</color>        <!-- Fundo suave e quente -->
+    <color name="textPrimary">#1A1A1A</color>            <!-- Texto principal -->
+    <color name="textSecondary">#5F5F5F</color>          <!-- Texto secundário -->
+
+    <!-- Cores adicionais para Material Design -->
+    <color name="colorOnPrimary">#FFFFFF</color>          <!-- Texto sobre colorPrimary -->
+    <color name="colorOnSecondary">#1A1A1A</color>        <!-- Texto sobre colorAccent -->
+    <color name="colorSurface">@color/backgroundLight</color> <!-- Superfície padrão -->
+    <color name="colorOnSurface">@color/textPrimary</color>   <!-- Texto sobre superfícies claras -->
+
+    <!-- Erro e sucesso (opcional, mas recomendado) -->
+    <color name="colorError">#D32F2F</color>              <!-- Vermelho para mensagens de erro -->
+    <color name="colorSuccess">#388E3C</color>            <!-- Verde para sucesso -->
+    <color name="colorOnError">#FFFFFF</color>            <!-- Texto sobre erro -->
+    <color name="splash_background">#FE8C00</color>       <!-- Mesma cor do fundo do logo -->
 </resources>

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Ifood.iml" filepath="$PROJECT_DIR$/Ifood.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Ifood.iml" filepath="$PROJECT_DIR$/.idea/modules/Ifood.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Ifood.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Ifood.app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Ifood.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Ifood.app.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Ifood.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Ifood.app.main.iml" />

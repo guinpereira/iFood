@@ -1,17 +1,26 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!-- Tema geral Express Food -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/backgroundLight</item>
+        <item name="android:textColorPrimary">@color/textPrimary</item>
+        <item name="android:textColorSecondary">@color/textSecondary</item>
     </style>
 
-    <style name="botaoPadrao" parent="Theme.AppCompat.Light">
-        <item name="colorControlHighlight">#ff404e</item>
-        <item name="colorButtonNormal">@color/colorAccent</item>
-        <item name="android:textColor">@android:color/white</item>
+    <!-- Estilo de botão padrão -->
+    <style name="botaoPadrao" parent="Widget.AppCompat.Button">
+        <item name="android:background">@color/colorPrimaryDark</item>  <!-- Usando android:background -->
+        <item name="android:textColor">@color/colorButtonText</item>
+    </style>
+
+    <!-- Campo de texto padrão -->
+    <style name="campoTexto" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@color/colorAccent</item>  <!-- Usando android:background -->
+        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:textColorHint">@color/textSecondary</item>
     </style>
 
 </resources>

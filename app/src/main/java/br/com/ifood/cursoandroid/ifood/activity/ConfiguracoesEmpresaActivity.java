@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -34,7 +34,7 @@ import br.com.ifood.cursoandroid.ifood.model.Empresa;
 public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
 
     private EditText editEmpresaNome, editEmpresaCategoria,
-                    editEmpresaTempo, editEmpresaTaxa;
+            editEmpresaTempo, editEmpresaTaxa;
     private ImageView imagePerfilEmpresa;
 
     private static final int SELECAO_GALERIA = 200;
@@ -66,7 +66,7 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
                 Intent i = new Intent(
                         Intent.ACTION_PICK,
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                        );
+                );
                 if( i.resolveActivity(getPackageManager()) != null ){
                     startActivityForResult(i, SELECAO_GALERIA);
                 }
@@ -75,12 +75,9 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
 
         /*Recuperar dados da empresa*/
         recuperarDadosEmpresa();
-
-
     }
 
     private void recuperarDadosEmpresa(){
-
         DatabaseReference empresaRef = firebaseRef
                 .child("empresas")
                 .child( idUsuarioLogado );
@@ -88,7 +85,6 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
         empresaRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 if( dataSnapshot.getValue() != null ){
                     Empresa empresa = dataSnapshot.getValue(Empresa.class);
                     editEmpresaNome.setText(empresa.getNome());
@@ -102,21 +98,15 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
                                 .load(urlImagemSelecionada)
                                 .into(imagePerfilEmpresa);
                     }
-
                 }
-
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
+            public void onCancelled(DatabaseError databaseError) {}
         });
-
     }
 
     public void validarDadosEmpresa(View view){
-
         //Valida se os campos foram preenchidos
         String nome = editEmpresaNome.getText().toString();
         String taxa = editEmpresaTaxa.getText().toString();
@@ -150,12 +140,10 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
         }else{
             exibirMensagem("Digite um nome para a empresa");
         }
-
     }
 
     private void exibirMensagem(String texto){
-        Toast.makeText(this, texto, Toast.LENGTH_SHORT)
-                .show();
+        Toast.makeText(this, texto, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -166,7 +154,6 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
             Bitmap imagem = null;
 
             try {
-
                 switch (requestCode) {
                     case SELECAO_GALERIA:
                         Uri localImagem = data.getData();
@@ -180,7 +167,6 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
                 }
 
                 if( imagem != null){
-
                     imagePerfilEmpresa.setImageBitmap( imagem );
 
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -192,7 +178,7 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
                             .child("empresas")
                             .child(idUsuarioLogado + "jpeg");
 
-                    UploadTask uploadTask = imagemRef.putBytes( dadosImagem );
+                    UploadTask uploadTask = imagemRef.putBytes(dadosImagem);
                     uploadTask.addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
@@ -203,23 +189,24 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
                     }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                            urlImagemSelecionada = taskSnapshot.getDownloadUrl().toString();
-                            Toast.makeText(ConfiguracoesEmpresaActivity.this,
-                                    "Sucesso ao fazer upload da imagem",
-                                    Toast.LENGTH_SHORT).show();
-
+                            // Atualize a URL da imagem após o upload
+                            imagemRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    urlImagemSelecionada = uri.toString();
+                                    Toast.makeText(ConfiguracoesEmpresaActivity.this,
+                                            "Sucesso ao fazer upload da imagem",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     });
-
                 }
 
             }catch (Exception e){
                 e.printStackTrace();
             }
-
         }
-
     }
 
     private void inicializarComponentes(){
@@ -229,5 +216,4 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
         editEmpresaTempo = findViewById(R.id.editEmpresaTempo);
         imagePerfilEmpresa = findViewById(R.id.imagePerfilEmpresa);
     }
-
 }
