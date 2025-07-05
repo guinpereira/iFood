@@ -1,6 +1,7 @@
 package br.com.ifood.cursoandroid.ifood.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -202,7 +203,9 @@ public class AutenticacaoActivity extends AppCompatActivity {
     private void logoutSeguro() {
         FirebaseAuth.getInstance().signOut();
         new Handler(Looper.getMainLooper()).post(() -> {
-            CookieManager.getInstance().removeAllCookies(null);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                CookieManager.getInstance().removeAllCookies(null);
+            }
         });
     }
 }
