@@ -46,15 +46,14 @@ public class AutenticacaoActivity extends AppCompatActivity {
         inicializaComponentes();
         autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
 
-        // Verificar usuário logado
         verificarUsuarioLogado();
 
         tipoAcesso.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) { // empresa
+                if (isChecked) {
                     linearTipoUsuario.setVisibility(View.VISIBLE);
-                } else { // usuario
+                } else {
                     linearTipoUsuario.setVisibility(View.GONE);
                 }
             }
@@ -63,99 +62,97 @@ public class AutenticacaoActivity extends AppCompatActivity {
         botaoAcessar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 String email = campoEmail.getText().toString();
                 String senha = campoSenha.getText().toString();
 
                 if (!email.isEmpty()) {
                     if (!senha.isEmpty()) {
 
-                        if (tipoAcesso.isChecked()) { // Cadastro
+                        if (tipoAcesso.isChecked()) {
+                            // Cadastro
+                            autenticacao.createUserWithEmailAndPassword(email, senha)
+                                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            if (task.isSuccessful()) {
+                                                String tipoUsuario = getTipoUsuario();
+                                                UsuarioFirebase.atualizarTipoUsuario(tipoUsuario, new UsuarioFirebase.DadosAtualizadosCallback() {
+                                                    @Override
+                                                    public void onSucesso() {
+                                                        Toast.makeText(AutenticacaoActivity.this,
+                                                                "Cadastro realizado com sucesso!",
+                                                                Toast.LENGTH_SHORT).show();
+                                                        abrirTelaPrincipal(tipoUsuario);
+                                                    }
 
-                            autenticacao.createUserWithEmailAndPassword(
-                                    email, senha
-                            ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                                    @Override
+                                                    public void onFalha(Exception e) {
+                                                        Toast.makeText(AutenticacaoActivity.this,
+                                                                "Erro ao atualizar perfil: " + e.getMessage(),
+                                                                Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
 
-                                    if (task.isSuccessful()) {
+                                            } else {
+                                                String erroExcecao = "";
 
-                                        String tipoUsuario = getTipoUsuario();
-                                        // Atualizar o tipo de usuário após o cadastro
-                                        UsuarioFirebase.atualizarTipoUsuario(tipoUsuario, new UsuarioFirebase.DadosAtualizadosCallback() {
-                                            @Override
-                                            public void onSucesso() {
+                                                try {
+                                                    throw task.getException();
+                                                } catch (FirebaseAuthWeakPasswordException e) {
+                                                    erroExcecao = "Digite uma senha mais forte!";
+                                                } catch (FirebaseAuthInvalidCredentialsException e) {
+                                                    erroExcecao = "Por favor, digite um e-mail válido";
+                                                } catch (FirebaseAuthUserCollisionException e) {
+                                                    erroExcecao = "Esta conta já foi cadastrada";
+                                                } catch (Exception e) {
+                                                    erroExcecao = "Erro ao cadastrar usuário: " + e.getMessage();
+                                                    e.printStackTrace();
+                                                }
+
                                                 Toast.makeText(AutenticacaoActivity.this,
-                                                        "Cadastro realizado com sucesso!",
+                                                        "Erro: " + erroExcecao,
                                                         Toast.LENGTH_SHORT).show();
-                                                abrirTelaPrincipal(tipoUsuario);
                                             }
+                                        }
+                                    });
 
-                                            @Override
-                                            public void onFalha(Exception e) {
+                        } else {
+                            // Login
+                            autenticacao.signInWithEmailAndPassword(email, senha)
+                                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            if (task.isSuccessful()) {
+                                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                                if (user != null) {
+                                                    user.reload().addOnCompleteListener(reloadTask -> {
+                                                        if (reloadTask.isSuccessful()) {
+                                                            String tipoUsuario = user.getDisplayName();
+
+                                                            if (tipoUsuario == null) {
+                                                                Toast.makeText(AutenticacaoActivity.this,
+                                                                        "Tipo de usuário não encontrado!",
+                                                                        Toast.LENGTH_SHORT).show();
+                                                            } else {
+                                                                Toast.makeText(AutenticacaoActivity.this,
+                                                                        "Logado com sucesso",
+                                                                        Toast.LENGTH_SHORT).show();
+                                                                abrirTelaPrincipal(tipoUsuario);
+                                                            }
+                                                        } else {
+                                                            Toast.makeText(AutenticacaoActivity.this,
+                                                                    "Erro ao recarregar dados do usuário",
+                                                                    Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+                                                }
+                                            } else {
                                                 Toast.makeText(AutenticacaoActivity.this,
-                                                        "Erro ao atualizar perfil: " + e.getMessage(),
+                                                        "Erro ao fazer login: " + task.getException(),
                                                         Toast.LENGTH_SHORT).show();
                                             }
-                                        });
-
-                                    } else {
-                                        String erroExcecao = "";
-
-                                        try {
-                                            throw task.getException();
-                                        } catch (FirebaseAuthWeakPasswordException e) {
-                                            erroExcecao = "Digite uma senha mais forte!";
-                                        } catch (FirebaseAuthInvalidCredentialsException e) {
-                                            erroExcecao = "Por favor, digite um e-mail válido";
-                                        } catch (FirebaseAuthUserCollisionException e) {
-                                            erroExcecao = "Esta conta já foi cadastrada";
-                                        } catch (Exception e) {
-                                            erroExcecao = "Erro ao cadastrar usuário: " + e.getMessage();
-                                            e.printStackTrace();
                                         }
-
-                                        Toast.makeText(AutenticacaoActivity.this,
-                                                "Erro: " + erroExcecao,
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-
-                                }
-                            });
-
-                        } else { // Login
-
-                            autenticacao.signInWithEmailAndPassword(
-                                    email, senha
-                            ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-
-                                        FirebaseUser user = task.getResult().getUser();
-                                        if (user != null) {
-                                            user.getIdToken(true).addOnSuccessListener(result -> {
-                                                String token = result.getToken();
-                                                // Aqui você pode usar o token se for acessar APIs externas
-                                                // Ex: Log.d("TOKEN", token);
-                                            });
-                                        }
-
-                                        Toast.makeText(AutenticacaoActivity.this,
-                                                "Logado com sucesso",
-                                                Toast.LENGTH_SHORT).show();
-
-                                        String tipoUsuario = user != null ? user.getDisplayName() : "";
-                                        abrirTelaPrincipal(tipoUsuario);
-
-                                    } else {
-                                        Toast.makeText(AutenticacaoActivity.this,
-                                                "Erro ao fazer login: " + task.getException(),
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-
+                                    });
                         }
 
                     } else {
@@ -168,10 +165,8 @@ public class AutenticacaoActivity extends AppCompatActivity {
                             "Preencha o E-mail!",
                             Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
-
     }
 
     private void verificarUsuarioLogado() {
@@ -204,7 +199,6 @@ public class AutenticacaoActivity extends AppCompatActivity {
         linearTipoUsuario = findViewById(R.id.linearTipoUsuario);
     }
 
-    // Método de logout opcional, se for usar futuramente
     private void logoutSeguro() {
         FirebaseAuth.getInstance().signOut();
         new Handler(Looper.getMainLooper()).post(() -> {

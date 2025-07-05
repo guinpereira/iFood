@@ -94,7 +94,7 @@ public class PedidosActivity extends AppCompatActivity {
         dialog = new SpotsDialog.Builder()
                 .setContext(this)
                 .setMessage("Carregando dados")
-                .setCancelable( false )
+                .setCancelable(false)
                 .build();
         dialog.show();
 
@@ -110,24 +110,36 @@ public class PedidosActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 pedidos.clear();
-                if( dataSnapshot.getValue() != null ){
-                    for (DataSnapshot ds: dataSnapshot.getChildren()){
+
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         Pedido pedido = ds.getValue(Pedido.class);
                         pedidos.add(pedido);
                     }
-                    adapterPedido.notifyDataSetChanged();
-                    dialog.dismiss();
                 }
 
+                adapterPedido.notifyDataSetChanged();
+                dialog.dismiss();
+
+                // Verifica se a lista ficou vazia
+                if (pedidos.isEmpty()) {
+                    android.widget.Toast.makeText(PedidosActivity.this,
+                            "Nenhum pedido confirmado encontrado.",
+                            android.widget.Toast.LENGTH_SHORT).show();
+                    finish(); // fecha a activity, ou você pode apenas deixar a tela vazia
+                }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                dialog.dismiss();
+                android.widget.Toast.makeText(PedidosActivity.this,
+                        "Erro ao buscar pedidos.",
+                        android.widget.Toast.LENGTH_SHORT).show();
             }
         });
-
     }
+
 
     private void inicializarComponentes(){
         recyclerPedidos = findViewById(R.id.recyclerPedidos);

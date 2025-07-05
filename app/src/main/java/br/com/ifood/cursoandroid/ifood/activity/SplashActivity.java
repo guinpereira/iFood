@@ -32,15 +32,23 @@ public class SplashActivity extends AppCompatActivity {
         FirebaseAuth autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
         FirebaseUser usuarioAtual = autenticacao.getCurrentUser();
 
-        // Se o usuário já estiver logado, ir diretamente para a tela principal
+        // Se o usuário estiver logado, realiza o logout forçado
         if (usuarioAtual != null) {
-            String tipoUsuario = usuarioAtual.getDisplayName();
-            abrirTelaPrincipal(tipoUsuario);  // Redireciona para a tela principal
-        } else {
-            // Caso contrário, abre a tela de autenticação
+            autenticacao.signOut();  // Força o logout
+            usuarioAtual = null;  // Reseta o objeto de usuário
+        }
+
+        // Verifica se o usuário está logado após o signOut()
+        if (usuarioAtual == null) {
+            // Caso não esteja logado, abre a tela de autenticação
             abrirAutenticacao();
+        } else {
+            // Se estiver logado, pega o tipo de usuário e abre a tela principal
+            String tipoUsuario = usuarioAtual.getDisplayName();
+            abrirTelaPrincipal(tipoUsuario);
         }
     }
+
 
     private void abrirAutenticacao() {
         Intent intent = new Intent(SplashActivity.this, AutenticacaoActivity.class);

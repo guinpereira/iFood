@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Tema geral Express Food -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -11,14 +11,13 @@
     </style>
 
     <!-- Estilo de botão padrão -->
-    <style name="botaoPadrao" parent="Widget.AppCompat.Button">
-        <item name="android:background">@color/colorPrimaryDark</item>  <!-- Usando android:background -->
+    <style name="botaoPadrao" parent="Widget.Material3.Button">
+        <item name="android:background">@color/colorPrimaryDark</item>
         <item name="android:textColor">@color/colorButtonText</item>
     </style>
 
     <!-- Campo de texto padrão -->
-    <style name="campoTexto" parent="Widget.AppCompat.EditText">
-        <item name="android:background">@color/colorAccent</item>  <!-- Usando android:background -->
+    <style name="campoTexto" parent="Widget.Material3.TextInputEditText.FilledBox">
         <item name="android:textColor">@color/textPrimary</item>
         <item name="android:textColorHint">@color/textSecondary</item>
     </style>

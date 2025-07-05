@@ -1,17 +1,18 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 33
+    namespace "br.com.ifood.cursoandroid.ifood"
+    compileSdkVersion 34
+
     defaultConfig {
         applicationId "br.com.ifood.cursoandroid.ifood"
         minSdkVersion 19
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
-        //testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -22,52 +23,34 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //implementation 'com.android.support:appcompat-v7:26.1.0'
-    //implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-
-    testImplementation 'junit:junit:4.12'
-    //androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
+    // AndroidX
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
-    //Testes
-    androidTestImplementation 'androidx.test:runner:1.5.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    // Material Components - versão atualizada para compatibilidade com setupWithSearchView
+    implementation 'com.google.android.material:material:1.11.0'
 
-
-    /* Firebase */
-    //implementation 'com.google.firebase:firebase-core:15.0.0'
-    //implementation 'com.google.firebase:firebase-database:15.0.0'
-    //implementation 'com.google.firebase:firebase-storage:15.0.0'
-    //implementation 'com.google.firebase:firebase-auth:15.0.0'
-
+    // Firebase (com BoM)
     implementation platform('com.google.firebase:firebase-bom:32.7.3')
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.google.firebase:firebase-storage'
 
-
-    /* MaterialSearchView */
-    //implementation 'com.github.MiguelCatalan:MaterialSearchView:1.4.0'
-    //implementation 'com.github.MiguelCatalan:MaterialSearchView:1.4.0'
-    //implementation 'com.github.ZinoKader:MaterialSearchView:1.4.0'
-    //implementation 'com.github.arimorty:MaterialSearchView:1.4.0'
-    implementation project(':library')
-
-
-    /* CircleImageView */
+    // Imagem circular
     implementation 'de.hdodenhof:circleimageview:2.2.0'
 
-    /* Picasso */
+    // Biblioteca de carregamento de imagens
     implementation 'com.squareup.picasso:picasso:2.71828'
 
-    /* Spots Dialog */
+    // Diálogo de carregamento
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
+
+    // Testes
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.5.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
